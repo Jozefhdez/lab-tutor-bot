@@ -1,0 +1,172 @@
+{
+	"info": {
+		"_postman_id": "tb-gap-detector-2026",
+		"name": "TutorBot — Gap Detector Service (8084)",
+		"description": "Colección completa para gap-detector-service.\nBase URL: http://localhost:8084/api/v1/gaps",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:8084"
+		}
+	],
+	"item": [
+		{
+			"name": "GET — Listar todas las brechas",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/api/v1/gaps",
+					"host": ["{{baseUrl}}"],
+					"path": ["api", "v1", "gaps"]
+				}
+			}
+		},
+		{
+			"name": "GET — Obtener brecha por ID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/api/v1/gaps/1",
+					"host": ["{{baseUrl}}"],
+					"path": ["api", "v1", "gaps", "1"]
+				}
+			}
+		},
+		{
+			"name": "GET — Brechas por estudiante",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/api/v1/gaps/student/A01234567",
+					"host": ["{{baseUrl}}"],
+					"path": ["api", "v1", "gaps", "student", "A01234567"]
+				}
+			}
+		},
+		{
+			"name": "GET — Brechas NO resueltas por estudiante",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/api/v1/gaps/student/A01234567/unresolved",
+					"host": ["{{baseUrl}}"],
+					"path": ["api", "v1", "gaps", "student", "A01234567", "unresolved"]
+				}
+			}
+		},
+		{
+			"name": "POST — Crear brecha: Closures (HIGH)",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"studentId\": \"A01234567\",\n  \"topicId\": 2,\n  \"subtopicId\": 3,\n  \"concept\": \"Closures en JavaScript\",\n  \"severity\": \"HIGH\",\n  \"confidence\": 0.92\n}"
+				},
+				"url": {
+					"raw": "{{baseUrl}}/api/v1/gaps",
+					"host": ["{{baseUrl}}"],
+					"path": ["api", "v1", "gaps"]
+				}
+			}
+		},
+		{
+			"name": "POST — Crear brecha: Promesas (MEDIUM)",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"studentId\": \"A01234567\",\n  \"topicId\": 2,\n  \"subtopicId\": 4,\n  \"concept\": \"Promesas y Async/Await\",\n  \"severity\": \"MEDIUM\",\n  \"confidence\": 0.78\n}"
+				},
+				"url": {
+					"raw": "{{baseUrl}}/api/v1/gaps",
+					"host": ["{{baseUrl}}"],
+					"path": ["api", "v1", "gaps"]
+				}
+			}
+		},
+		{
+			"name": "POST — Crear brecha: Flexbox (LOW)",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"studentId\": \"A09876543\",\n  \"topicId\": 1,\n  \"subtopicId\": 2,\n  \"concept\": \"Flexbox y Grid\",\n  \"severity\": \"LOW\",\n  \"confidence\": 0.55\n}"
+				},
+				"url": {
+					"raw": "{{baseUrl}}/api/v1/gaps",
+					"host": ["{{baseUrl}}"],
+					"path": ["api", "v1", "gaps"]
+				}
+			}
+		},
+		{
+			"name": "POST — Crear brecha: REST Controllers (HIGH)",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"studentId\": \"A01234567\",\n  \"topicId\": 3,\n  \"subtopicId\": 5,\n  \"concept\": \"REST Controllers en Spring Boot\",\n  \"severity\": \"HIGH\",\n  \"confidence\": 0.88\n}"
+				},
+				"url": {
+					"raw": "{{baseUrl}}/api/v1/gaps",
+					"host": ["{{baseUrl}}"],
+					"path": ["api", "v1", "gaps"]
+				}
+			}
+		},
+		{
+			"name": "PATCH — Resolver brecha (marcar como resuelta)",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/api/v1/gaps/1/resolve",
+					"host": ["{{baseUrl}}"],
+					"path": ["api", "v1", "gaps", "1", "resolve"]
+				}
+			}
+		},
+		{
+			"name": "PATCH — Resolver brecha ID=2",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/api/v1/gaps/2/resolve",
+					"host": ["{{baseUrl}}"],
+					"path": ["api", "v1", "gaps", "2", "resolve"]
+				}
+			}
+		}
+	]
+}

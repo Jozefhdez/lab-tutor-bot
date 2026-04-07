@@ -1,0 +1,60 @@
+version: '3.9'
+
+services:
+  redis:
+    image: redis:7.2-alpine
+    container_name: tutorbot-redis
+    ports:
+      - '6379:6379'
+
+  rabbitmq:
+    image: rabbitmq:3.13-management
+    container_name: tutorbot-rabbitmq
+    ports:
+      - '5672:5672'
+      - '15672:15672'
+
+  mongodb:
+    image: mongo:7.0
+    container_name: tutorbot-mongodb
+    ports:
+      - '27017:27017'
+    volumes:
+      - mongo-data:/data/db
+
+  solr:
+    image: solr:9.6
+    container_name: tutorbot-solr
+    ports:
+      - '8983:8983'
+    command:
+      - solr-precreate
+      - tutorbot-exercises
+
+  ollama:
+    image: ollama/ollama:latest
+    container_name: tutorbot-ollama
+    ports:
+      - '11434:11434'
+    volumes:
+      - ollama-data:/root/.ollama
+
+  oracle-db:
+    image: gvenzl/oracle-xe:21-slim
+    container_name: oracledb
+    environment:
+      ORACLE_PASSWORD: password
+      APP_USER: Adolfo
+      APP_USER_PASSWORD: password
+    ports:
+      - "1522:1521"
+    mem_limit: 2g
+    healthcheck:
+      test: ["CMD", "healthcheck.sh"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+volumes:
+  mongo-data:
+  ollama-data:

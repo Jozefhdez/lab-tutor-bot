@@ -1,0 +1,127 @@
+{
+	"info": {
+		"_postman_id": "tb-evaluator-2026",
+		"name": "TutorBot — Evaluator Service (8082)",
+		"description": "Colección completa para evaluator-service.\nBase URL: http://localhost:8082/api/v1/evaluations",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:8082"
+		}
+	],
+	"item": [
+		{
+			"name": "GET — Listar todas las evaluaciones",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/api/v1/evaluations",
+					"host": ["{{baseUrl}}"],
+					"path": ["api", "v1", "evaluations"]
+				}
+			}
+		},
+		{
+			"name": "GET — Obtener evaluación por ID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/api/v1/evaluations/1",
+					"host": ["{{baseUrl}}"],
+					"path": ["api", "v1", "evaluations", "1"]
+				}
+			}
+		},
+		{
+			"name": "GET — Evaluaciones por estudiante",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/api/v1/evaluations/student/A01234567",
+					"host": ["{{baseUrl}}"],
+					"path": ["api", "v1", "evaluations", "student", "A01234567"]
+				}
+			}
+		},
+		{
+			"name": "GET — Evaluaciones por sesión",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/api/v1/evaluations/session/session-abc-001",
+					"host": ["{{baseUrl}}"],
+					"path": ["api", "v1", "evaluations", "session", "session-abc-001"]
+				}
+			}
+		},
+		{
+			"name": "POST — Evaluar respuesta de alumno (con Ollama)",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"sessionId\": \"session-abc-001\",\n  \"studentId\": \"A01234567\",\n  \"questionText\": \"¿Qué es una API REST y cuáles son sus principios fundamentales?\",\n  \"studentAnswer\": \"Una API REST es una interfaz que permite la comunicación entre sistemas usando HTTP. Sus principios son: cliente-servidor, sin estado (stateless), cacheable, interfaz uniforme y sistema en capas.\",\n  \"correctAnswer\": \"REST (Representational State Transfer) es un estilo arquitectónico para diseñar APIs web. Los principios fundamentales son: 1) Cliente-servidor, 2) Sin estado, 3) Cacheable, 4) Interfaz uniforme (recursos con URIs, representaciones, mensajes autodescriptivos, HATEOAS), 5) Sistema en capas, 6) Código bajo demanda (opcional).\",\n  \"maxScore\": 100,\n  \"topicId\": 3\n}"
+				},
+				"url": {
+					"raw": "{{baseUrl}}/api/v1/evaluations",
+					"host": ["{{baseUrl}}"],
+					"path": ["api", "v1", "evaluations"]
+				}
+			}
+		},
+		{
+			"name": "POST — Evaluar respuesta incorrecta (score bajo)",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"sessionId\": \"session-abc-002\",\n  \"studentId\": \"A01234567\",\n  \"questionText\": \"¿Cuál es la diferencia entre var, let y const en JavaScript?\",\n  \"studentAnswer\": \"var y let son lo mismo, const es para constantes.\",\n  \"correctAnswer\": \"var tiene scope de función y permite re-declaración (hoisting). let tiene scope de bloque, no permite re-declaración pero sí reasignación. const tiene scope de bloque, no permite ni re-declaración ni reasignación del binding (pero sí mutación de objetos).\",\n  \"maxScore\": 100,\n  \"topicId\": 2\n}"
+				},
+				"url": {
+					"raw": "{{baseUrl}}/api/v1/evaluations",
+					"host": ["{{baseUrl}}"],
+					"path": ["api", "v1", "evaluations"]
+				}
+			}
+		},
+		{
+			"name": "POST — Evaluar tema HTML/CSS",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"sessionId\": \"session-xyz-003\",\n  \"studentId\": \"A09876543\",\n  \"questionText\": \"Explica la diferencia entre Flexbox y CSS Grid.\",\n  \"studentAnswer\": \"Flexbox es para una dimensión y Grid para dos dimensiones. Flexbox alinea elementos en fila o columna, Grid permite crear layouts de filas y columnas al mismo tiempo.\",\n  \"correctAnswer\": \"Flexbox es un modelo de layout unidimensional (fila O columna). CSS Grid es bidimensional (filas Y columnas simultáneamente). Flexbox es ideal para componentes y pequeños layouts; Grid para layouts de página completos. Ambos se pueden combinar.\",\n  \"maxScore\": 50,\n  \"topicId\": 1\n}"
+				},
+				"url": {
+					"raw": "{{baseUrl}}/api/v1/evaluations",
+					"host": ["{{baseUrl}}"],
+					"path": ["api", "v1", "evaluations"]
+				}
+			}
+		}
+	]
+}
