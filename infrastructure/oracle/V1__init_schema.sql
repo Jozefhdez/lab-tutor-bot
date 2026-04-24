@@ -66,20 +66,20 @@ BEGIN
     SELECT COUNT(*) INTO v_exists FROM user_tables WHERE table_name = 'EVALUATIONS';
     IF v_exists = 0 THEN
         EXECUTE IMMEDIATE '
-            CREATE TABLE EVALUATIONS (
-                ID               NUMBER        NOT NULL,
-                SESSION_ID       VARCHAR2(255) NOT NULL,
-                STUDENT_ID       VARCHAR2(255) NOT NULL,
-                QUESTION_TEXT    CLOB,
-                STUDENT_ANSWER   CLOB,
-                CORRECT_ANSWER   CLOB,
-                SCORE            NUMBER(10),
-                MAX_SCORE        NUMBER(10),
-                FEEDBACK_SUMMARY CLOB,
-                TOPIC_ID         NUMBER,
-                EVALUATED_AT     TIMESTAMP,
-                CONSTRAINT PK_EVALUATIONS PRIMARY KEY (ID)
-            )';
+        CREATE TABLE EVALUATIONS (
+                                     ID               NUMBER        NOT NULL,
+                                     SESSION_ID       VARCHAR2(255) NOT NULL,
+                                     STUDENT_ID       VARCHAR2(255) NOT NULL,
+                                     QUESTION_TEXT    CLOB,
+                                     STUDENT_ANSWER   CLOB,
+                                     CORRECT_ANSWER   CLOB,
+                                     SCORE            NUMBER(10),
+                                     MAX_SCORE        NUMBER(10),
+                                     FEEDBACK_SUMMARY CLOB,
+                                     TOPIC_ID         NUMBER,
+                                     EVALUATED_AT     TIMESTAMP,
+                                     CONSTRAINT PK_EVALUATIONS PRIMARY KEY (ID)
+        )';
     END IF;
 END;
 /
@@ -91,12 +91,12 @@ BEGIN
     SELECT COUNT(*) INTO v_exists FROM user_tables WHERE table_name = 'COURSES';
     IF v_exists = 0 THEN
         EXECUTE IMMEDIATE '
-            CREATE TABLE COURSES (
-                ID   NUMBER        NOT NULL,
-                NAME VARCHAR2(255) NOT NULL,
-                CODE VARCHAR2(50),
-                CONSTRAINT PK_COURSES PRIMARY KEY (ID)
-            )';
+        CREATE TABLE COURSES (
+                                 ID   NUMBER        NOT NULL,
+                                 NAME VARCHAR2(255) NOT NULL,
+                                 CODE VARCHAR2(50),
+                                 CONSTRAINT PK_COURSES PRIMARY KEY (ID)
+        )';
     END IF;
 END;
 /
@@ -108,12 +108,12 @@ BEGIN
     SELECT COUNT(*) INTO v_exists FROM user_tables WHERE table_name = 'TOPICS';
     IF v_exists = 0 THEN
         EXECUTE IMMEDIATE '
-            CREATE TABLE TOPICS (
-                ID        NUMBER        NOT NULL,
-                NAME      VARCHAR2(255) NOT NULL,
-                COURSE_ID NUMBER,
-                CONSTRAINT PK_TOPICS PRIMARY KEY (ID)
-            )';
+        CREATE TABLE TOPICS (
+                                ID        NUMBER        NOT NULL,
+                                NAME      VARCHAR2(255) NOT NULL,
+                                COURSE_ID NUMBER,
+                                CONSTRAINT PK_TOPICS PRIMARY KEY (ID)
+        )';
     END IF;
 END;
 /
@@ -125,12 +125,12 @@ BEGIN
     SELECT COUNT(*) INTO v_exists FROM user_tables WHERE table_name = 'SUBTOPICS';
     IF v_exists = 0 THEN
         EXECUTE IMMEDIATE '
-            CREATE TABLE SUBTOPICS (
-                ID       NUMBER        NOT NULL,
-                NAME     VARCHAR2(255) NOT NULL,
-                TOPIC_ID NUMBER,
-                CONSTRAINT PK_SUBTOPICS PRIMARY KEY (ID)
-            )';
+        CREATE TABLE SUBTOPICS (
+                                   ID       NUMBER        NOT NULL,
+                                   NAME     VARCHAR2(255) NOT NULL,
+                                   TOPIC_ID NUMBER,
+                                   CONSTRAINT PK_SUBTOPICS PRIMARY KEY (ID)
+        )';
     END IF;
 END;
 /
@@ -142,18 +142,18 @@ BEGIN
     SELECT COUNT(*) INTO v_exists FROM user_tables WHERE table_name = 'GAPS';
     IF v_exists = 0 THEN
         EXECUTE IMMEDIATE '
-            CREATE TABLE GAPS (
-                ID          NUMBER        NOT NULL,
-                STUDENT_ID  VARCHAR2(255) NOT NULL,
-                TOPIC_ID    NUMBER,
-                SUBTOPIC_ID NUMBER,
-                CONCEPT     VARCHAR2(255) NOT NULL,
-                SEVERITY    VARCHAR2(50)  NOT NULL,
-                CONFIDENCE  FLOAT,
-                DETECTED_AT TIMESTAMP,
-                RESOLVED    NUMBER(1),
-                CONSTRAINT PK_GAPS PRIMARY KEY (ID)
-            )';
+        CREATE TABLE GAPS (
+                              ID          NUMBER        NOT NULL,
+                              STUDENT_ID  VARCHAR2(255) NOT NULL,
+                              TOPIC_ID    NUMBER,
+                              SUBTOPIC_ID NUMBER,
+                              CONCEPT     VARCHAR2(255) NOT NULL,
+                              SEVERITY    VARCHAR2(50)  NOT NULL,
+                              CONFIDENCE  FLOAT,
+                              DETECTED_AT TIMESTAMP,
+                              RESOLVED    NUMBER(1),
+                              CONSTRAINT PK_GAPS PRIMARY KEY (ID)
+        )';
     END IF;
 END;
 /

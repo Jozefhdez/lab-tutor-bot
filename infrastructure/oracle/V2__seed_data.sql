@@ -95,7 +95,7 @@ MERGE INTO SUBTOPICS tgt USING (SELECT 50 AS ID, 'Transformers'              AS 
 -- Uses deterministic pseudo-random data based on row number.
 
 DECLARE
-    v_count   NUMBER;
+v_count   NUMBER;
     v_id      NUMBER;
     v_sid     VARCHAR2(20);
     v_sess    VARCHAR2(40);
@@ -116,11 +116,11 @@ DECLARE
     corrects  t_correct;
     feedbacks t_feedback;
 BEGIN
-    SELECT COUNT(*) INTO v_count FROM EVALUATIONS;
-    IF v_count >= 300 THEN
+SELECT COUNT(*) INTO v_count FROM EVALUATIONS;
+IF v_count >= 300 THEN
         DBMS_OUTPUT.PUT_LINE('EVALUATIONS already has ' || v_count || ' rows — skipping.');
         RETURN;
-    END IF;
+END IF;
 
     -- 15 students (matrículas estilo Tec de Monterrey)
     students(1)  := 'A00835001'; students(2)  := 'A00835002';
@@ -211,7 +211,7 @@ BEGIN
     feedbacks(10) := 'Necesitas mejorar. La respuesta muestra confusión entre conceptos relacionados.';
 
     -- Insert 300 evaluations
-    FOR i IN 1..300 LOOP
+FOR i IN 1..300 LOOP
         v_id    := SEQ_EVALUATIONS.NEXTVAL;
         v_sid   := students(MOD(i - 1, 15) + 1);
         v_sess  := 'SESSION-' || LPAD(TO_CHAR(MOD(i - 1, 60) + 1), 4, '0');
@@ -220,26 +220,26 @@ BEGIN
                        WHEN MOD(i, 7) = 0 THEN TRUNC(DBMS_RANDOM.VALUE(20, 50))   -- bajo
                        WHEN MOD(i, 3) = 0 THEN TRUNC(DBMS_RANDOM.VALUE(50, 75))   -- medio
                        ELSE TRUNC(DBMS_RANDOM.VALUE(75, 100))                       -- alto
-                   END;
+END;
         v_ts    := SYSTIMESTAMP - NUMTODSINTERVAL(DBMS_RANDOM.VALUE(0, 90 * 24 * 60), 'MINUTE');
 
-        INSERT INTO EVALUATIONS (
-            ID, SESSION_ID, STUDENT_ID, QUESTION_TEXT, STUDENT_ANSWER,
-            CORRECT_ANSWER, SCORE, MAX_SCORE, FEEDBACK_SUMMARY, TOPIC_ID, EVALUATED_AT
-        ) VALUES (
-            v_id,
-            v_sess,
-            v_sid,
-            questions(MOD(i - 1, 20) + 1),
-            answers(MOD(i - 1, 20) + 1),
-            corrects(MOD(i - 1, 20) + 1),
-            v_score,
-            v_max,
-            feedbacks(MOD(i - 1, 10) + 1),
-            v_topic,
-            v_ts
-        );
-    END LOOP;
+INSERT INTO EVALUATIONS (
+    ID, SESSION_ID, STUDENT_ID, QUESTION_TEXT, STUDENT_ANSWER,
+    CORRECT_ANSWER, SCORE, MAX_SCORE, FEEDBACK_SUMMARY, TOPIC_ID, EVALUATED_AT
+) VALUES (
+             v_id,
+             v_sess,
+             v_sid,
+             questions(MOD(i - 1, 20) + 1),
+             answers(MOD(i - 1, 20) + 1),
+             corrects(MOD(i - 1, 20) + 1),
+             v_score,
+             v_max,
+             feedbacks(MOD(i - 1, 10) + 1),
+             v_topic,
+             v_ts
+         );
+END LOOP;
 
     DBMS_OUTPUT.PUT_LINE('Inserted 300 evaluations.');
 END;
@@ -249,7 +249,7 @@ END;
 -- Only inserts if fewer than 200 gaps exist.
 
 DECLARE
-    v_count      NUMBER;
+v_count      NUMBER;
     v_id         NUMBER;
     v_sid        VARCHAR2(20);
     v_topic      NUMBER;
@@ -269,11 +269,11 @@ DECLARE
     TYPE t_sub2topic IS TABLE OF NUMBER INDEX BY PLS_INTEGER;
     sub2topic t_sub2topic;
 BEGIN
-    SELECT COUNT(*) INTO v_count FROM GAPS;
-    IF v_count >= 200 THEN
+SELECT COUNT(*) INTO v_count FROM GAPS;
+IF v_count >= 200 THEN
         DBMS_OUTPUT.PUT_LINE('GAPS already has ' || v_count || ' rows — skipping.');
         RETURN;
-    END IF;
+END IF;
 
     -- Students
     students(1)  := 'A00835001'; students(2)  := 'A00835002';
@@ -350,7 +350,7 @@ BEGIN
     sub2topic(40) := 17;
 
     -- Insert 200 gaps
-    FOR i IN 1..200 LOOP
+FOR i IN 1..200 LOOP
         v_id       := SEQ_GAPS.NEXTVAL;
         v_sid      := students(MOD(i - 1, 15) + 1);
         v_subtopic := MOD(i - 1, 40) + 1;
@@ -358,21 +358,21 @@ BEGIN
         v_resolved := CASE WHEN MOD(i, 5) = 0 THEN 1 ELSE 0 END;  -- 20% resueltos
         v_ts       := SYSTIMESTAMP - NUMTODSINTERVAL(DBMS_RANDOM.VALUE(0, 90 * 24 * 60), 'MINUTE');
 
-        INSERT INTO GAPS (
-            ID, STUDENT_ID, TOPIC_ID, SUBTOPIC_ID, CONCEPT,
-            SEVERITY, CONFIDENCE, DETECTED_AT, RESOLVED
-        ) VALUES (
-            v_id,
-            v_sid,
-            v_topic,
-            v_subtopic,
-            concepts(v_subtopic),
-            severities(MOD(i - 1, 4) + 1),
-            ROUND(DBMS_RANDOM.VALUE(0.3, 0.99), 2),
-            v_ts,
-            v_resolved
-        );
-    END LOOP;
+INSERT INTO GAPS (
+    ID, STUDENT_ID, TOPIC_ID, SUBTOPIC_ID, CONCEPT,
+    SEVERITY, CONFIDENCE, DETECTED_AT, RESOLVED
+) VALUES (
+             v_id,
+             v_sid,
+             v_topic,
+             v_subtopic,
+             concepts(v_subtopic),
+             severities(MOD(i - 1, 4) + 1),
+             ROUND(DBMS_RANDOM.VALUE(0.3, 0.99), 2),
+             v_ts,
+             v_resolved
+         );
+END LOOP;
 
     DBMS_OUTPUT.PUT_LINE('Inserted 200 gaps.');
 END;
@@ -382,22 +382,22 @@ END;
 -- Make sure sequences are past all manually-assigned catalogue IDs.
 
 DECLARE
-    v_val NUMBER;
+v_val NUMBER;
     PROCEDURE advance_seq(p_seq VARCHAR2, p_target NUMBER) IS
         v_cur NUMBER;
-    BEGIN
-        EXECUTE IMMEDIATE 'SELECT ' || p_seq || '.CURRVAL FROM DUAL' INTO v_cur;
-        FOR j IN 1..(p_target - v_cur) LOOP
+BEGIN
+EXECUTE IMMEDIATE 'SELECT ' || p_seq || '.CURRVAL FROM DUAL' INTO v_cur;
+FOR j IN 1..(p_target - v_cur) LOOP
             EXECUTE IMMEDIATE 'SELECT ' || p_seq || '.NEXTVAL FROM DUAL' INTO v_cur;
-        END LOOP;
-    EXCEPTION
+END LOOP;
+EXCEPTION
         WHEN OTHERS THEN
             -- CURRVAL not available if sequence was never called; call NEXTVAL first
             EXECUTE IMMEDIATE 'SELECT ' || p_seq || '.NEXTVAL FROM DUAL' INTO v_cur;
-            FOR j IN 1..(p_target - v_cur) LOOP
+FOR j IN 1..(p_target - v_cur) LOOP
                 EXECUTE IMMEDIATE 'SELECT ' || p_seq || '.NEXTVAL FROM DUAL' INTO v_cur;
-            END LOOP;
-    END;
+END LOOP;
+END;
 BEGIN
     advance_seq('SEQ_COURSES',   10);
     advance_seq('SEQ_TOPICS',    25);
